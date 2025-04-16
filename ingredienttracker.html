@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ingredient Tracker</title>
+    <style>
+      body {
+        background: gray;
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #mix-section {
+        border: 2px solid #bbb;
+        border-radius: 12px;
+        padding: 32px 40px 24px 40px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        background: #fff;
+        min-width: 410px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h2 {
+        margin-top: 0;
+        margin-bottom: 24px;
+        font-size: 2em;
+        letter-spacing: 1px;
+        color: #333;
+        text-align: center;
+        width: 100%;
+      }
+      .content-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .input-row {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 18px;
+      }
+      .input-label {
+        display: inline-block;
+        min-width: 145px;
+        font-weight: 500;
+        margin-right: 8px;
+        text-align: left;
+      }
+      select {
+        padding: 6px 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 1em;
+        min-width: 180px;
+      }
+      button {
+        padding: 6px 16px;
+        border-radius: 6px;
+        border: none;
+        background: #4caf50;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-left: 8px;
+      }
+      button:hover:not(.color-btn) {
+        background: #388e3c;
+      }
+      #substance-list {
+        margin-top: 18px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .substance-row {
+        display: grid;
+        grid-template-columns: 1fr 40px;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 1.08em;
+        column-gap: 14px;
+      }
+      .color-btn {
+        width: 30px;
+        height: 30px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        background-color: green;
+        transition: background-color 0.2s;
+        outline: 1.5px solid #bbb;
+        justify-self: end;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mix-section">
+      <h2>Ingredient Tracker</h2>
+      <div class="content-container">
+        <div class="input-row">
+          <label class="input-label" for="product-type">Product type:</label>
+          <select id="product-type">
+            <option value="Weep">Weep</option>
+            <option value="Crackers">Crackers</option>
+            <option value="Coca">Coca</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <label class="input-label" for="substance-select"
+            >Substance toevoegen:</label
+          >
+          <select id="substance-select">
+            <option value="" selected disabled>Kies een stof...</option>
+            <option value="Addy">Addy</option>
+            <option value="Battery">Battery</option>
+            <option value="Banana">Banana</option>
+            <option value="Chili">Chili</option>
+            <option value="Cuke">Cuke</option>
+            <option value="Donut">Donut</option>
+            <option value="Energy Drink">Energy Drink</option>
+            <option value="Flu Medicine">Flu Medicine</option>
+            <option value="Gasoline">Gasoline</option>
+            <option value="Horse Juice">Horse Juice</option>
+            <option value="Iodine">Iodine</option>
+            <option value="Mega Bean">Mega Bean</option>
+            <option value="Motor Oil">Motor Oil</option>
+            <option value="Mouth Wash">Mouth Wash</option>
+            <option value="Paracetamol">Paracetamol</option>
+            <option value="Viagra">Viagra</option>
+          </select>
+          <button onclick="addSubstance()">Toevoegen</button>
+        </div>
+        <div id="substance-list"></div>
+      </div>
+    </div>
+
+    <script>
+      const colors = ["green", "orange", "red"];
+
+      function addSubstance() {
+        const select = document.getElementById("substance-select");
+        const value = select.value;
+        if (!value) return;
+
+        const list = document.getElementById("substance-list");
+
+        const row = document.createElement("div");
+        row.className = "substance-row";
+
+        const name = document.createElement("span");
+        name.textContent = value;
+
+        const colorBtn = document.createElement("button");
+        colorBtn.className = "color-btn";
+        colorBtn.dataset.colorIndex = "0";
+        colorBtn.style.backgroundColor = colors[0];
+        colorBtn.onclick = function () {
+          let idx = parseInt(colorBtn.dataset.colorIndex, 10);
+          idx = (idx + 1) % colors.length;
+          colorBtn.dataset.colorIndex = idx;
+          colorBtn.style.backgroundColor = colors[idx];
+        };
+
+        row.appendChild(name);
+        row.appendChild(colorBtn);
+        list.appendChild(row);
+
+        select.selectedIndex = 0;
+      }
+    </script>
+  </body>
+</html>
